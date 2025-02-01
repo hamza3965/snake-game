@@ -3,6 +3,7 @@ from snake import Snake
 from food import Food
 from scoreboard import Scoreboard
 import time
+import pygame
 
 screen = Screen()
 screen.setup(width=600, height=650)
@@ -30,6 +31,12 @@ screen.onkey(snake.down, "Down")
 screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
 
+pygame.mixer.init()
+# Load sound effects
+food_sound = pygame.mixer.Sound("./sound_effects/food_eat.wav")
+game_over_sound = pygame.mixer.Sound("./sound_effects/game_over.wav")
+
+
 game_is_on = True
 while game_is_on:
     screen.update()
@@ -41,6 +48,8 @@ while game_is_on:
         food.refresh()
         snake.extend()
         scoreboard.increase_score()
+        food_sound.play()
+
         if scoreboard.score % 2 == 0:
             snake.change_color()
 
@@ -49,6 +58,7 @@ while game_is_on:
         game_is_on = False
         scoreboard.color("red")
         scoreboard.game_over()
+        game_over_sound.play()
 
     # Detect collision with tail.
     for segment in snake.segments[1:]:
@@ -57,6 +67,7 @@ while game_is_on:
             snake.red_snake()
             scoreboard.game_over()
             screen.update()
+            game_over_sound.play()
 
 
 
