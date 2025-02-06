@@ -9,7 +9,7 @@ DOWN = 270
 LEFT = 180
 RIGHT = 0
 
-COLORS = ["blue", "green", "yellow", "purple", "cyan", "orange", "white"]
+COLORS = ["blue", "green", "yellow", "purple", "cyan", "orange"]
 
 class Snake:
 
@@ -36,10 +36,14 @@ class Snake:
         for segment in self.segments:
             segment.color(self.current_color)
 
-    def red_snake(self):
-        self.current_color = "red"
-        for segment in self.segments:
-            segment.color(self.current_color)
+    def reset(self):
+        for seg in self.segments:
+            seg.goto(1000, 1000)
+
+        self.segments.clear()
+        self.current_color = "white"
+        self.create_snake()
+        self.head = self.segments[0]
 
     def extend(self):
         """Add a new segment to the snake"""
